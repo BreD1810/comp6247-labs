@@ -1,11 +1,10 @@
 # ---
 # jupyter:
 #   jupytext:
-#     formats: ipynb,py:percent
 #     text_representation:
 #       extension: .py
-#       format_name: percent
-#       format_version: '1.3'
+#       format_name: light
+#       format_version: '1.5'
 #       jupytext_version: 1.9.1
 #   kernelspec:
 #     display_name: 'Python 3.9.2 64-bit (''labs'': pipenv)'
@@ -15,47 +14,29 @@
 #     name: python3
 # ---
 
-# %% [markdown]
 # # Lab Worksheet, Week 5: Rejection Sampling
 
-# %%
 # %matplotlib inline
-import matplotlib as mpl
 import matplotlib.pyplot as plt
 import seaborn as sns; sns.set()
 import numpy as np
-from matplotlib import cm
-from mpl_toolkits.mplot3d import Axes3D
-from matplotlib.colors import LogNorm
-import random
-# %matplotlib inline
-from matplotlib import animation, rc
-from IPython.display import HTML
-
-import numpy as np
 import scipy as sp
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
 
-from scipy.stats import norm
-
-# %%
+# +
 fontsize = 40
 scattersize=100
 surf_labelpad = 50.
 
 plt.style.use("seaborn")
 plt.rcParams.update({'figure.figsize': (20,15), 'font.size': fontsize, 'axes.labelsize': fontsize, 'axes.labelpad': 15., 'text.usetex':True, 'xtick.labelsize': fontsize, 'xtick.major.pad': 20., 'ytick.labelsize': fontsize, 'ytick.major.pad': 20., })
+# -
 
-# %%
 rng = np.random.RandomState(13)
 
 
-# %% [markdown]
 # Define target, $p(x)$, and proposal, $q(x)$:
 
-# %%
+# +
 def p(x):
     return 0.3*sp.stats.norm.pdf(x, loc=30, scale=10) + 0.7*sp.stats.norm.pdf(x, loc=80, scale=20)
 
@@ -65,10 +46,10 @@ def q(x):
 
 
 
-# %% [markdown]
+# -
+
 # Rejection sampling:
 
-# %%
 def rejection_sampling(iter=1000, k=1.):
     samples = []
     for i in range(iter):
@@ -83,20 +64,18 @@ def rejection_sampling(iter=1000, k=1.):
     return np.array(samples)
 
 
-# %% [markdown]
 # Run!
 
-# %%
+# +
 x = np.linspace(-50,150,1000)
 k = max(p(x) / q(x))
 
 samples = rejection_sampling(iter=100000, k=k)
 # samples = rejection_sampling(iter=100, k=k)
+# -
 
-# %% [markdown]
 # Plot distribution of samples and compare to target:
 
-# %%
 fig, ax = plt.subplots()
 plt.plot(x, p(x), color='b', label='Target pdf, $p(z)$')
 plt.plot(x, k*q(x), color='r', label='Comparison function, $k\,q(z)$')
@@ -107,4 +86,4 @@ plt.legend(fontsize=fontsize, loc='upper left')
 plt.show()
 
 
-# %%
+
